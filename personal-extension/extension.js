@@ -58,6 +58,11 @@
     ["v-log", "관측 일지"],
     ["v-spec", "나비 표본"],
     ["v-exlib", "장서표"],
+    ["v-receipt", "영수증"],
+    ["v-tag", "수하물 태그"],
+    ["v-key", "호텔 열쇠"],
+    ["v-slide", "슬라이드 필름"],
+    ["v-bookmark", "책갈피"],
   ];
   const PALETTE_OPTIONS = [
     ["cream", "크림"],
@@ -380,6 +385,7 @@
     "v-stamp": "소인 우표", "v-lp": "LP 슬리브", "v-scrap": "스크랩북", "v-chart": "별자리 차트",
     "v-board": "탑승권", "v-post": "엽서", "v-film": "필름", "v-match": "성냥갑",
     "v-tarot": "타로", "v-log": "관측 일지", "v-spec": "나비 표본", "v-exlib": "장서표",
+    "v-receipt": "영수증", "v-tag": "수하물 태그", "v-key": "호텔 열쇠", "v-slide": "슬라이드 필름", "v-bookmark": "책갈피",
   };
   const isVintage = (ornament) => Object.prototype.hasOwnProperty.call(VINTAGE, ornament);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -411,6 +417,7 @@
       y: m.year, yy, mo: m.month, d: m.day, day: Number(m.day), wd: esc(wd), hh, mi, time: esc(m.time),
       w: esc(m.weather || ""), place: esc(m.location), wx, wxEn: WX_EN[wx] || "SKY", period,
       full: `${m.year}.${m.month}.${m.day}`, short: `${yy}.${m.month}.${m.day}`,
+      cast: card.__mrpcCast?.__list?.length || 0,
     };
   }
   const tw = (a, sep, b) => (b ? `${a}${sep}${b}` : a);
@@ -440,6 +447,16 @@
         return `<div class="sp"><div class="in"><div class="bug">${V_BF}<span class="pin"></span></div><div class="lab"><div class="sn">No. ${t.day} · Papilio noctis</div>채집일 ${t.short} (${t.wd})<br>채집시 ${tw(t.time, " · ", t.w)}<br>채집지 <span class="pl">${t.place}</span></div></div></div>`;
       case "v-exlib":
         return `<div class="ex"><div class="in"><span class="co c1">✦</span><span class="co c2">✦</span><span class="co c3">✦</span><span class="co c4">✦</span>${V_BF}<div class="el">EX LIBRIS</div><div class="pl">${t.place}</div><div class="ft"><span>${t.short} (${t.wd})</span><span>${t.time}</span>${t.w ? `<span>${t.w}</span>` : ""}</div></div></div>`;
+      case "v-receipt":
+        return `<div class="rcw"><div class="rc"><div class="t">SCENE RECEIPT</div><div class="s">No. ${t.mo}${t.d} · ${t.short} (${t.wd})</div><div class="pl">${t.place}</div><div class="hr"></div><div class="ln"><span>DATE</span><b>${t.full} (${t.wd})</b></div><div class="ln"><span>TIME</span><b>${t.time}</b></div>${t.w ? `<div class="ln"><span>WEATHER</span><b>${t.w}</b></div>` : ""}${t.cast ? `<div class="hr"></div><div class="tot"><span>CAST</span><span>${t.cast}</span></div>` : ""}<div class="bc"></div><div class="ty">THANK YOU · COME AGAIN</div></div></div>`;
+      case "v-tag":
+        return `<div class="ltw"><div class="lt"><span class="hole"></span><div class="side"><span>BAGGAGE</span></div><div class="main"><span class="mk">DESTINATION</span><div class="to">${t.place}</div><div class="g"><div><span class="mk">DATE</span><b>${t.short} (${t.wd})</b></div><div><span class="mk">TIME</span><b>${t.time}</b></div>${t.w ? `<div><span class="mk">SKY</span><b>${t.w}</b></div>` : ""}</div></div></div></div>`;
+      case "v-key":
+        return `<div class="kt"><div class="fobw"><span class="ring"></span><div class="fob"><span class="mk">ROOM</span><span class="rn">${t.day}</span>${V_BF}</div></div><div class="info"><div class="ttl">HOTEL · 장면 호텔</div><div class="pl">${t.place}</div><div class="ln"><span>CHECK-IN</span><span>${t.full} (${t.wd})</span></div><div class="ln"><span>TIME</span><span>${t.time}</span></div>${t.w ? `<div class="ln"><span>WEATHER</span><span>${t.w}</span></div>` : ""}</div></div>`;
+      case "v-slide":
+        return `<div class="sl"><div class="mount"><span class="t">SCENE SLIDE</span><span class="l">${t.short}</span><span class="r">No. ${t.day}</span><div class="win">${V_BF}</div><span class="b">${t.place}</span></div><div class="info"><div class="ttl">SLIDE · ${t.day}</div><div class="pl">${t.place}</div><div class="d">${t.full} <small>(${t.wd})</small></div><div class="tm">${tw(t.time, " · ", t.w)}</div></div></div>`;
+      case "v-bookmark":
+        return `<div class="bm"><div class="bmw"><span class="tas"></span><div class="bmk"><span class="hole"></span>${V_BF}<span class="v">PAGE · ${t.day}</span></div></div><div class="pg"><div class="q">— where we left off,</div><div class="pl">${t.place}</div><div class="ln"><span>DATE</span><span>${t.full} (${t.wd})</span></div><div class="ln"><span>TIME</span><span>${t.time}</span></div>${t.w ? `<div class="ln"><span>WEATHER</span><span>${t.w}</span></div>` : ""}<div class="pgn">P. ${t.day}</div></div></div>`;
     }
     return "";
   }
@@ -468,6 +485,11 @@
       case "v-log": return { cls: "och", html: `<i></i>${nm}` };
       case "v-spec": return { cls: "tagc", html: nm };
       case "v-exlib": return { cls: "ov", html: nm };
+      case "v-receipt": return { cls: "rcc", html: nm };
+      case "v-tag": return { cls: "ltc", html: nm };
+      case "v-key": return { cls: "kc", html: `<i>${201 + n}</i>${nm}` };
+      case "v-slide": return { cls: "slc", html: `<i></i>${nm}` };
+      case "v-bookmark": return { cls: "bmc", html: `<i></i>${nm}` };
     }
     return { cls: "ch", html: nm };
   }
@@ -497,6 +519,16 @@
         return `<div class="ob"><div class="hd"><b class="who">${p.name}</b><span class="mk">OBJECT ${no}</span></div><table>${[[CAST_LABELS[0], p.outfit], [CAST_LABELS[1], p.pose], [CAST_LABELS[2], p.mood]].filter(([, v]) => v).map(([l, v]) => `<tr><th>${l}</th><td>${v}</td></tr>`).join("")}</table></div>`;
       case "v-spec":
         return `<div class="lab big"><div class="sn">${p.name} <span class="mk">SPECIMEN ${no}</span></div>${vRows(p)}</div>`;
+      case "v-receipt":
+        return `<div class="rcw"><div class="rcp"><div class="hd2"><span>${p.name}</span><span>#${no}</span></div>${[[CAST_LABELS[0], p.outfit], [CAST_LABELS[1], p.pose], [CAST_LABELS[2], p.mood]].filter(([, v]) => v).map(([l, v]) => `<div class="it"><span>${l}</span><span>${v}</span></div>`).join("")}</div></div>`;
+      case "v-tag":
+        return `<div class="ltp"><span class="hole"></span><div class="who"><b>${p.name}</b><span class="mk">TAG ${no}</span></div>${vRows(p)}</div>`;
+      case "v-key":
+        return `<div class="ktp"><div class="mini"><b>${201 + n}</b><span>${p.name}</span></div>${vRows(p)}</div>`;
+      case "v-slide":
+        return `<div class="slp"><div class="w"><span class="bfi"></span><span>${p.name}</span></div>${vRows(p)}</div>`;
+      case "v-bookmark":
+        return `<div class="bmp"><div class="rib"></div><div><div class="h">${p.name}</div>${vRows(p)}</div></div>`;
       case "v-exlib":
         return `<div class="ex"><div class="in left"><span class="co c1">✦</span><span class="co c2">✦</span><span class="co c3">✦</span><span class="co c4">✦</span><div class="el">EX LIBRIS · ${p.name}</div>${vRows(p)}</div></div>`;
     }
@@ -561,8 +593,9 @@
     vx.setAttribute("aria-label", card.getAttribute("aria-label") || "작중 정보");
     vx.title = "누르면 모양·색감을 바꿀 수 있어요";
     vx.className = `mrpc-vx mrpc-vv mrpc-${ornament} mrpc-palette-${currentPalette()}`;
-    if (vx.dataset.kind !== ornament) {
-      vx.dataset.kind = ornament;
+    const sig = `${ornament}|${t.cast}`;
+    if (vx.dataset.sig !== sig) {
+      vx.dataset.sig = sig;
       vx.innerHTML = vintageCardHTML(ornament, t);
     }
     if (card.parentNode && vx.previousSibling !== card) card.after(vx);

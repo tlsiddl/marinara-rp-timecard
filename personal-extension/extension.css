@@ -1303,8 +1303,8 @@
 .mrpc-cast.mrpc-vx .chips{display:flex!important;flex-wrap:wrap;justify-content:center;gap:8px;align-items:center}
 .mrpc-cast.mrpc-vx .panels{display:block}
 .mrpc-cast.mrpc-vx .vpanel{display:block}
-.mrpc-cast.mrpc-vx button.mrpc-cast-chip{appearance:none;-webkit-appearance:none;margin:0;font:inherit;font-size:.86em;line-height:1.7;color:var(--tx);cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:left}
-.mrpc-cast.mrpc-vx button.mrpc-cast-chip:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
+:where(.mrpc-cast.mrpc-vx) button.mrpc-cast-chip{appearance:none;-webkit-appearance:none;border:0;background:none;padding:0;border-radius:0;margin:0;font:inherit;font-size:.86em;line-height:1.7;color:var(--tx);cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:left}
+:where(.mrpc-cast.mrpc-vx) button.mrpc-cast-chip:focus-visible{outline:2px solid var(--tx);outline-offset:2px}
 .mrpc-cast.mrpc-vx button.stw{background:none;border:0;padding:0}
 .mrpc-cast.mrpc-vx .vpanel{animation:mrpc-cast-in .22s ease-out}
 @media (prefers-reduced-motion:reduce){.mrpc-cast.mrpc-vx .vpanel{animation:none}}
@@ -1615,3 +1615,122 @@
 .mrpc-vx.mrpc-v-exlib .ex .in.left{text-align:left}
 .mrpc-vx.mrpc-v-exlib .ex .in.left .el{text-align:center}
 .mrpc-cast.mrpc-vx.mrpc-v-exlib .vpanel{padding-top:12px}
+/* ── 빈티지 소품 2차 ── */
+/* v-receipt */
+.mrpc-vx.mrpc-v-receipt .rcw{filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.16))}
+.mrpc-vx.mrpc-v-receipt .rc{position:relative;width:17em;margin:6px auto 0;padding:18px 18px 22px;background:var(--sf);font:400 12.5px/1.65 "Courier Prime","Gowun Batang",monospace;box-shadow:0 1px 3px rgba(0,0,0,.12);
+ clip-path:polygon(0 0,100% 0,100% calc(100% - 2.8px),96.7% calc(100% - 3.8px),93.9% calc(100% - 6.0px),85.1% calc(100% - 3.9px),82.0% calc(100% - 6.7px),81.0% calc(100% - 3.9px),78.8% calc(100% - 4.4px),69.5% calc(100% - 3.6px),67.7% calc(100% - 3.1px),64.8% calc(100% - 4.3px),63.6% calc(100% - 2.6px),62.5% calc(100% - 0.7px),58.4% calc(100% - 3.4px),58.0% calc(100% - 4.2px),57.6% calc(100% - 2.2px),57.3% calc(100% - 0.5px),54.7% calc(100% - 5.1px),53.5% calc(100% - 3.9px),50.7% calc(100% - 1.5px),45.4% calc(100% - 6.1px),43.5% calc(100% - 2.9px),42.9% calc(100% - 4.2px),42.6% calc(100% - 1.7px),39.9% calc(100% - 2.1px),37.5% calc(100% - 4.8px),36.8% calc(100% - 1.2px),32.7% calc(100% - 1.5px),31.8% calc(100% - 3.1px),31.2% calc(100% - 0.4px),30.4% calc(100% - 2.1px),29.4% calc(100% - 4.8px),24.9% calc(100% - 2.8px),22.9% calc(100% - 7.2px),21.2% calc(100% - 4.0px),18.7% calc(100% - 4.1px),15.8% calc(100% - 6.6px),15.1% calc(100% - 5.5px),13.1% calc(100% - 1.1px),12.5% calc(100% - 5.4px),9.9% calc(100% - 0.9px),8.1% calc(100% - 0.5px),7.8% calc(100% - 3.2px),7.2% calc(100% - 1.6px),6.8% calc(100% - 2.1px),6.7% calc(100% - 4.3px),5.6% calc(100% - 2.5px),4.7% calc(100% - 5.9px),0% calc(100% - 1.6px))}
+.mrpc-vx.mrpc-v-receipt .rc .t{text-align:center;font-weight:700;letter-spacing:.24em;font-size:13px}
+.mrpc-vx.mrpc-v-receipt .rc .s{text-align:center;font-size:10px;letter-spacing:.14em;color:var(--mu);margin-bottom:6px}
+.mrpc-vx.mrpc-v-receipt .rc .hr{border-top:1px dashed var(--tx);margin:6px 0}
+.mrpc-vx.mrpc-v-receipt .rc .ln{display:flex;justify-content:space-between;gap:10px}
+.mrpc-vx.mrpc-v-receipt .rc .ln b{font-weight:400}
+.mrpc-vx.mrpc-v-receipt .rc .tot{display:flex;justify-content:space-between;font-weight:700;font-size:14px;letter-spacing:.06em}
+.mrpc-vx.mrpc-v-receipt .rc .pl{font:700 15px "Gowun Batang",serif;text-align:center;margin:4px 0 2px}
+.mrpc-vx.mrpc-v-receipt .rc .bc{width:70%;height:26px;margin:8px auto 2px;background:repeating-linear-gradient(90deg,var(--tx) 0 1px,#0000 1px 3px,var(--tx) 3px 5px,#0000 5px 6px,var(--tx) 6px 7px,#0000 7px 10px,var(--tx) 10px 12px,#0000 12px 13px)}
+.mrpc-vx.mrpc-v-receipt .rc .ty{text-align:center;font-size:10px;letter-spacing:.2em;color:var(--mu)}
+.mrpc-vx.mrpc-v-receipt .rcc{filter:drop-shadow(0 1px 1px rgba(0,0,0,.16));display:inline-flex;align-items:center;gap:.4em;padding:4px 12px 7px;background:var(--sf);font:400 12.5px "Courier Prime","Gowun Batang",monospace;box-shadow:0 1px 2px rgba(0,0,0,.14);clip-path:polygon(0 0,100% 0,100% calc(100% - 0.9px),96.9% calc(100% - 2.6px),94.2% calc(100% - 2.2px),85.6% calc(100% - 2.0px),77.3% calc(100% - 1.5px),76.6% calc(100% - 3.0px),69.2% calc(100% - 1.0px),54.2% calc(100% - 2.5px),53.2% calc(100% - 2.5px),52.8% calc(100% - 2.5px),36.9% calc(100% - 0.9px),33.3% calc(100% - 0.8px),26.6% calc(100% - 1.8px),17.4% calc(100% - 2.2px),16.8% calc(100% - 1.8px),15.4% calc(100% - 0.6px),3.7% calc(100% - 2.4px),3.3% calc(100% - 2.1px),0% calc(100% - 0.8px))}
+.mrpc-vx.mrpc-v-receipt .rcc.on{background:var(--tx);color:var(--sf)}
+.mrpc-vx.mrpc-v-receipt .rcc.on .k{color:var(--soft)}
+.mrpc-vx.mrpc-v-receipt .rcp{position:relative;margin:12px 6px 0;padding:14px 16px 18px;background:var(--sf);font:400 12.5px/1.7 "Courier Prime","Gowun Batang",monospace;box-shadow:0 1px 3px rgba(0,0,0,.12);clip-path:polygon(0 0,100% 0,100% calc(100% - 2.8px),96.7% calc(100% - 3.8px),93.9% calc(100% - 6.0px),85.1% calc(100% - 3.9px),82.0% calc(100% - 6.7px),81.0% calc(100% - 3.9px),78.8% calc(100% - 4.4px),69.5% calc(100% - 3.6px),67.7% calc(100% - 3.1px),64.8% calc(100% - 4.3px),63.6% calc(100% - 2.6px),62.5% calc(100% - 0.7px),58.4% calc(100% - 3.4px),58.0% calc(100% - 4.2px),57.6% calc(100% - 2.2px),57.3% calc(100% - 0.5px),54.7% calc(100% - 5.1px),53.5% calc(100% - 3.9px),50.7% calc(100% - 1.5px),45.4% calc(100% - 6.1px),43.5% calc(100% - 2.9px),42.9% calc(100% - 4.2px),42.6% calc(100% - 1.7px),39.9% calc(100% - 2.1px),37.5% calc(100% - 4.8px),36.8% calc(100% - 1.2px),32.7% calc(100% - 1.5px),31.8% calc(100% - 3.1px),31.2% calc(100% - 0.4px),30.4% calc(100% - 2.1px),29.4% calc(100% - 4.8px),24.9% calc(100% - 2.8px),22.9% calc(100% - 7.2px),21.2% calc(100% - 4.0px),18.7% calc(100% - 4.1px),15.8% calc(100% - 6.6px),15.1% calc(100% - 5.5px),13.1% calc(100% - 1.1px),12.5% calc(100% - 5.4px),9.9% calc(100% - 0.9px),8.1% calc(100% - 0.5px),7.8% calc(100% - 3.2px),7.2% calc(100% - 1.6px),6.8% calc(100% - 2.1px),6.7% calc(100% - 4.3px),5.6% calc(100% - 2.5px),4.7% calc(100% - 5.9px),0% calc(100% - 1.6px))}
+.mrpc-vx.mrpc-v-receipt .rcp .it{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:.4em;padding:2px 0}
+.mrpc-vx.mrpc-v-receipt .rcp .it span:first-child{color:var(--mu)}
+/* v-tag */
+.mrpc-vx.mrpc-v-tag .lt::after,.mrpc-vx.mrpc-v-tag .ltp::after{content:"";position:absolute;inset:1px;z-index:-1;background:var(--sf);clip-path:polygon(21.4px 0,100% 0,100% 100%,21.4px 100%,0 calc(100% - 21.4px),0 21.4px)}
+.mrpc-vx.mrpc-v-tag .lt{position:relative;display:grid;grid-template-columns:4.4em minmax(0,1fr);margin:6px 0 0 18px;background:var(--ln);isolation:isolate;
+ clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px)}
+.mrpc-vx.mrpc-v-tag .ltw{position:relative}
+.mrpc-vx.mrpc-v-tag .ltw .str{position:absolute;left:-2px;top:50%;width:40px;height:1.2px;background:var(--tx);transform:rotate(-14deg);transform-origin:right}
+.mrpc-vx.mrpc-v-tag .lt .hole{position:absolute;left:12px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:transparent;box-shadow:0 0 0 1px var(--ln),0 0 0 4px var(--soft),0 0 0 5px var(--ln)}
+.mrpc-vx.mrpc-v-tag .lt .side{border-right:1px dashed var(--ln);display:flex;align-items:center;justify-content:center}
+.mrpc-vx.mrpc-v-tag .lt .side span{writing-mode:vertical-rl;transform:rotate(180deg);font:700 9px "Courier Prime",monospace;letter-spacing:.3em;color:var(--mu);margin-left:26px}
+.mrpc-vx.mrpc-v-tag .lt .main{padding:12px 16px 12px 14px}
+.mrpc-vx.mrpc-v-tag .lt .main .mk{display:block}
+.mrpc-vx.mrpc-v-tag .lt .to{font-size:1.25em;font-weight:700;letter-spacing:.03em;border-bottom:1px solid var(--tx);padding-bottom:2px;margin:2px 0 8px}
+.mrpc-vx.mrpc-v-tag .lt .g{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;gap:4px}
+.mrpc-vx.mrpc-v-tag .lt .g b{display:block;font:700 1em "Cormorant Garamond","Gowun Batang",serif;letter-spacing:.04em}
+.mrpc-vx.mrpc-v-tag .ltc{display:inline-flex;align-items:center;gap:.45em;padding:.28em .9em .28em 1.5em;background:var(--sf);border:1px solid var(--ln);font-size:.86em;position:relative;clip-path:polygon(9px 0,100% 0,100% 100%,9px 100%,0 50%)}
+.mrpc-vx.mrpc-v-tag .ltc::before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;border:1px solid var(--tx)}
+.mrpc-vx.mrpc-v-tag .ltc.on{background:var(--tx);color:var(--sf)}
+.mrpc-vx.mrpc-v-tag .ltc.on::before{border-color:var(--soft)}
+.mrpc-vx.mrpc-v-tag .ltc.on .k{color:var(--soft)}
+.mrpc-vx.mrpc-v-tag .ltp{position:relative;margin:12px 0 0 18px;padding:12px 16px 12px 40px;background:var(--ln);isolation:isolate;clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px)}
+.mrpc-vx.mrpc-v-tag .ltp .hole{position:absolute;left:12px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:transparent;box-shadow:0 0 0 1px var(--ln)}
+.mrpc-vx.mrpc-v-tag .ltp .who{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--tx);padding-bottom:2px;margin-bottom:6px}
+.mrpc-vx.mrpc-v-tag .lt{-webkit-mask:radial-gradient(circle 8px at 20px 50%,#0000 98%,#000);mask:radial-gradient(circle 8px at 20px 50%,#0000 98%,#000)}
+.mrpc-vx.mrpc-v-tag .ltp{-webkit-mask:radial-gradient(circle 7px at 19px 50%,#0000 98%,#000);mask:radial-gradient(circle 7px at 19px 50%,#0000 98%,#000)}
+/* v-key */
+.mrpc-vx.mrpc-v-key .kt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:4px 4px}
+.mrpc-vx.mrpc-v-key .fob{position:relative;width:96px;height:132px;background:var(--tx);color:var(--sf);border-radius:48px 48px 14px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.mrpc-vx.mrpc-v-key .fob{-webkit-mask:radial-gradient(circle 7px at 50% 17px,#0000 98%,#000);mask:radial-gradient(circle 7px at 50% 17px,#0000 98%,#000)}
+.mrpc-vx.mrpc-v-key .fobw{position:relative;margin-top:22px}
+.mrpc-vx.mrpc-v-key .fobw .ring{position:absolute;z-index:1;top:-24px;left:50%;width:30px;height:30px;margin-left:-15px;border:2.5px solid var(--ln);border-radius:50%}
+.mrpc-vx.mrpc-v-key .fob .rn{font:700 34px/1 "Cormorant Garamond",serif;letter-spacing:.02em;margin-top:10px}
+.mrpc-vx.mrpc-v-key .fob .mk{color:var(--soft)}
+.mrpc-vx.mrpc-v-key .fob .bfi{width:30px;color:var(--soft);margin-top:4px}
+.mrpc-vx.mrpc-v-key .kt .info .ttl{font:700 9px "Courier Prime",monospace;letter-spacing:.28em;color:var(--mu)}
+.mrpc-vx.mrpc-v-key .kt .info .pl{font-size:1.25em;font-weight:700;letter-spacing:.03em;line-height:1.3;margin:2px 0 8px}
+.mrpc-vx.mrpc-v-key .kt .info .ln{display:flex;justify-content:space-between;border-top:1px dotted var(--ln);padding:4px 0;font-size:.9em}
+.mrpc-vx.mrpc-v-key .kt .info .ln span:first-child{font:700 9px/2 "Courier Prime",monospace;letter-spacing:.16em;color:var(--mu)}
+.mrpc-vx.mrpc-v-key .kc{display:inline-flex;align-items:center;gap:.45em;padding:.3em .9em .3em .5em;border:1px solid var(--ln);border-radius:999px 8px 8px 999px;background:var(--sf);font-size:.86em}
+.mrpc-vx.mrpc-v-key .kc i{display:inline-flex;align-items:center;justify-content:center;min-width:2.1em;height:1.5em;padding:0 4px;border-radius:999px 4px 4px 999px;background:var(--tx);color:var(--sf);font:700 11px "Cormorant Garamond",serif;font-style:normal}
+.mrpc-vx.mrpc-v-key .kc.on{background:var(--tx);color:var(--sf);border-color:var(--tx)}
+.mrpc-vx.mrpc-v-key .kc.on i{background:var(--sf);color:var(--tx)}
+.mrpc-vx.mrpc-v-key .kc.on .k{color:var(--soft)}
+.mrpc-vx.mrpc-v-key .ktp{display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:12px;margin-top:12px;padding:10px 14px 10px 10px;background:var(--sf);border:1px solid var(--ln);border-radius:10px}
+.mrpc-vx.mrpc-v-key .ktp .mini{background:var(--tx);color:var(--sf);border-radius:24px 24px 8px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 2px 8px}
+.mrpc-vx.mrpc-v-key .ktp .mini b{font:700 22px/1 "Cormorant Garamond",serif}
+.mrpc-vx.mrpc-v-key .ktp .mini span{font-size:.78em;margin-top:4px}
+/* v-slide */
+.mrpc-vx.mrpc-v-slide .sl{display:grid;grid-template-columns:132px minmax(0,1fr);gap:16px;align-items:center}
+.mrpc-vx.mrpc-v-slide .mount{position:relative;width:132px;height:132px;background:var(--sf);border:1px solid var(--ln);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center}
+.mrpc-vx.mrpc-v-slide .mount .win{width:84px;height:58px;border-radius:6px;background:var(--tx);display:flex;align-items:center;justify-content:center;color:var(--soft);overflow:hidden;position:relative}
+.mrpc-vx.mrpc-v-slide .mount .win .bfi{width:46px}
+.mrpc-vx.mrpc-v-slide .mount .t{position:absolute;left:0;right:0;top:12px;text-align:center;font:700 8px "Courier Prime",monospace;letter-spacing:.22em;color:var(--mu)}
+.mrpc-vx.mrpc-v-slide .mount .b{position:absolute;left:0;right:0;bottom:10px;text-align:center;font:700 10.5px "Gowun Batang",serif;letter-spacing:.02em}
+.mrpc-vx.mrpc-v-slide .mount .l{position:absolute;left:8px;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font:700 7.5px "Courier Prime",monospace;letter-spacing:.2em;color:var(--mu)}
+.mrpc-vx.mrpc-v-slide .mount .r{position:absolute;right:8px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:700 7.5px "Courier Prime",monospace;letter-spacing:.2em;color:var(--mu)}
+.mrpc-vx.mrpc-v-slide .sl .info .ttl{font:700 9px "Courier Prime",monospace;letter-spacing:.28em;color:var(--mu)}
+.mrpc-vx.mrpc-v-slide .sl .info .pl{font-size:1.2em;font-weight:700;line-height:1.3;margin:3px 0 6px}
+.mrpc-vx.mrpc-v-slide .sl .info .d{font:700 1.3em/1.1 "Cormorant Garamond",serif;letter-spacing:.05em}
+.mrpc-vx.mrpc-v-slide .sl .info .tm{font:700 11px "Courier Prime","Gowun Batang",monospace;letter-spacing:.14em;color:var(--mu);margin-top:3px}
+.mrpc-vx.mrpc-v-slide .slc{display:inline-flex;align-items:center;gap:.45em;padding:4px 10px 4px 5px;border:1px solid var(--ln);border-radius:6px;background:var(--sf);font-size:.86em}
+.mrpc-vx.mrpc-v-slide .slc i{width:18px;height:14px;border-radius:3px;background:var(--tx);box-shadow:inset 0 0 0 3px var(--sf),inset 0 0 0 4px var(--ln)}
+.mrpc-vx.mrpc-v-slide .slc.on{background:var(--tx);color:var(--sf);border-color:var(--tx)}
+.mrpc-vx.mrpc-v-slide .slc.on i{background:var(--soft);box-shadow:inset 0 0 0 3px var(--tx),inset 0 0 0 4px var(--soft)}
+.mrpc-vx.mrpc-v-slide .slc.on .k{color:var(--soft)}
+.mrpc-vx.mrpc-v-slide .slp{margin-top:12px;padding:10px;background:var(--sf);border:1px solid var(--ln);border-radius:8px;display:grid;grid-template-columns:4.4em minmax(0,1fr);gap:12px}
+.mrpc-vx.mrpc-v-slide .slp .w{background:var(--tx);color:var(--soft);border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:.8em;padding:6px 2px;text-align:center}
+/* v-bookmark */
+.mrpc-vx.mrpc-v-bookmark .bm{display:grid;grid-template-columns:64px minmax(0,1fr);gap:16px;align-items:start}
+.mrpc-vx.mrpc-v-bookmark .bmk{position:relative;width:64px;height:176px;background:var(--tx);color:var(--soft);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 16px),0 100%);display:flex;flex-direction:column;align-items:center;padding-top:16px;gap:8px}
+.mrpc-vx.mrpc-v-bookmark .bmk::before{content:"";position:absolute;inset:4px 4px 0;border:1px solid color-mix(in srgb,var(--soft) 55%,#0000);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),50% calc(100% - 18px),0 calc(100% - 4px))}
+.mrpc-vx.mrpc-v-bookmark .bmk .bfi{width:40px}
+.mrpc-vx.mrpc-v-bookmark .bmk .v{writing-mode:vertical-rl;font:700 10px "Courier Prime",monospace;letter-spacing:.3em}
+.mrpc-vx.mrpc-v-bookmark .bmk .hole{width:8px;height:8px;flex:none}
+.mrpc-vx.mrpc-v-bookmark .bmk{-webkit-mask:radial-gradient(circle 4px at 50% 20px,#0000 98%,#000);mask:radial-gradient(circle 4px at 50% 20px,#0000 98%,#000)}
+.mrpc-vx.mrpc-v-bookmark .bmw{position:relative;margin-top:20px}
+.mrpc-vx.mrpc-v-bookmark .bmw .tas{position:absolute;left:28px;top:-20px;width:8px;height:22px;border-left:1.5px solid var(--tx);border-right:1.5px solid var(--tx)}
+.mrpc-vx.mrpc-v-bookmark .bm .pg{padding-top:8px}
+.mrpc-vx.mrpc-v-bookmark .bm .q{font:600 italic 16px/1.5 "Cormorant Garamond","Gowun Batang",serif;color:var(--mu)}
+.mrpc-vx.mrpc-v-bookmark .bm .pl{font-size:1.3em;font-weight:700;letter-spacing:.03em;margin:4px 0 8px;line-height:1.3}
+.mrpc-vx.mrpc-v-bookmark .bm .ln{display:flex;gap:8px;align-items:baseline;font-size:.9em;padding:3px 0;border-top:1px dotted var(--ln)}
+.mrpc-vx.mrpc-v-bookmark .bm .ln span:first-child{font:700 9px "Courier Prime",monospace;letter-spacing:.16em;color:var(--mu);width:5.6em}
+.mrpc-vx.mrpc-v-bookmark .bm .pgn{font:700 10px "Courier Prime",monospace;letter-spacing:.2em;color:var(--mu);margin-top:6px}
+.mrpc-vx.mrpc-v-bookmark .bmc{display:inline-flex;align-items:center;gap:.45em;padding:.3em .9em .3em .6em;border:1px solid var(--ln);background:var(--sf);font-size:.86em;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 50%,100% 100%,0 100%);padding-right:1.4em}
+.mrpc-vx.mrpc-v-bookmark .bmc i{width:6px;height:16px;background:var(--tx);clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%)}
+.mrpc-vx.mrpc-v-bookmark .bmc.on{background:var(--tx);color:var(--sf);border-color:var(--tx)}
+.mrpc-vx.mrpc-v-bookmark .bmc.on i{background:var(--soft)}
+.mrpc-vx.mrpc-v-bookmark .bmc.on .k{color:var(--soft)}
+.mrpc-vx.mrpc-v-bookmark .bmp{margin-top:12px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding:10px 14px 10px 10px;background:var(--sf);border:1px solid var(--ln);border-radius:4px}
+.mrpc-vx.mrpc-v-bookmark .bmp .rib{background:var(--tx);clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 10px),0 100%)}
+.mrpc-vx.mrpc-v-bookmark .bmp .h{font-weight:700;letter-spacing:.04em;border-bottom:1px solid var(--tx);padding-bottom:2px;margin-bottom:6px}
+.mrpc-vx.mrpc-v-receipt .rcp .hd2{display:flex;justify-content:space-between;font-weight:700;border-bottom:1px dashed var(--tx);padding-bottom:3px;margin-bottom:4px}.mrpc-vx.mrpc-v-receipt .rcp .hd2 span:first-child{font-family:"Gowun Batang",serif}
+.mrpc-vx.mrpc-v-slide .slp .w .bfi{width:34px}.mrpc-vx.mrpc-v-slide .sl .info .d small{font:700 .55em "Gowun Batang",serif}
+.mrpc-vx.mrpc-v-key .kt .info .ln span:last-child{font-weight:400}
+.mrpc-vx.mrpc-v-tag .ltc{background:var(--ln);border:0;isolation:isolate}
+.mrpc-vx.mrpc-v-tag .ltc::after{content:"";position:absolute;inset:1px;z-index:-1;background:var(--sf);clip-path:polygon(8.5px 0,100% 0,100% 100%,8.5px 100%,0 50%)}
+.mrpc-vx.mrpc-v-tag .ltc.on::after{background:var(--tx)}
+.mrpc-vx.mrpc-v-bookmark .bmc{background:var(--ln);border:0;isolation:isolate;position:relative}
+.mrpc-vx.mrpc-v-bookmark .bmc::after{content:"";position:absolute;inset:1px;z-index:-1;background:var(--sf);clip-path:polygon(0 0,100% 0,calc(100% - 7.5px) 50%,100% 100%,0 100%)}
+.mrpc-vx.mrpc-v-bookmark .bmc.on::after{background:var(--tx)}
