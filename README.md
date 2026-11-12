@@ -25,11 +25,9 @@ RP 응답에 들어 있는 `§RP | 날짜 | 시간 | 장소 | 날씨§` 태그�
 ## 빈티지 소품
 
 <p>
-  <img src="screenshots/vintage-1.webp" width="100%" alt="소인 우표 · LP 슬리브 · 스크랩북 · 별자리 차트">
-  <img src="screenshots/vintage-2.webp" width="100%" alt="탑승권 · 엽서 · 필름 · 성냥갑">
-  <img src="screenshots/vintage-3.webp" width="100%" alt="타로 · 관측 일지 · 나비 표본 · 장서표">
-  <img src="screenshots/vintage-4.webp" width="100%" alt="영수증 · 수하물 태그 · 호텔 열쇠">
-  <img src="screenshots/vintage-5.webp" width="66%" alt="슬라이드 필름 · 책갈피">
+  <img src="screenshots/vintage-1.webp" width="100%" alt="01 소인 우표 · 02 LP 슬리브 · 03 스크랩북 · 04 별자리 차트 · 05 탑승권 · 06 엽서">
+  <img src="screenshots/vintage-2.webp" width="100%" alt="07 필름 · 08 성냥갑 · 09 타로 · 10 관측 일지 · 11 나비 표본 · 12 장서표">
+  <img src="screenshots/vintage-3.webp" width="100%" alt="13 영수증 · 14 수하물 태그 · 15 호텔 열쇠 · 16 슬라이드 필름 · 17 책갈피">
 </p>
 <p>
   <img src="screenshots/v-stamp-night.webp" width="32%" alt="소인 우표 · 밤하늘 색감">
