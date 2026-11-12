@@ -46,6 +46,18 @@
     ["k-station-w", "옅은 역명판"],
     ["x-opera-ol", "공연 표"],
     ["x-opera-c", "투명 공연 표"],
+    ["v-stamp", "소인 우표", "빈티지 소품"],
+    ["v-lp", "LP 슬리브"],
+    ["v-scrap", "스크랩북"],
+    ["v-chart", "별자리 차트"],
+    ["v-board", "탑승권"],
+    ["v-post", "엽서"],
+    ["v-film", "필름"],
+    ["v-match", "성냥갑"],
+    ["v-tarot", "타로"],
+    ["v-log", "관측 일지"],
+    ["v-spec", "나비 표본"],
+    ["v-exlib", "장서표"],
   ];
   const PALETTE_OPTIONS = [
     ["cream", "크림"],
@@ -163,7 +175,12 @@
     for (let base = VARIANT_BASE[ornament], n = 0; base && n < 4; base = VARIANT_BASE[base], n += 1) card.classList.add(`mrpc-ornament-${base}`, `mo-${base}`);
     card.dataset.ornament = ornament;
     card.dataset.palette = palette;
-    if (card.__mrpcCast) { for (const [value] of PALETTE_OPTIONS) card.__mrpcCast.classList.remove(`mrpc-palette-${value}`); card.__mrpcCast.classList.add(`mrpc-palette-${palette}`); }
+    if (card.__mrpcCast) {
+      renderCast(card.__mrpcCast, ornament, card);
+      for (const [value] of PALETTE_OPTIONS) card.__mrpcCast.classList.remove(`mrpc-palette-${value}`);
+      card.__mrpcCast.classList.add(`mrpc-palette-${palette}`);
+    }
+    syncVintage(card, ornament);
     if (INITIAL_ORNAMENTS.includes(ornament) || card.dataset.initial) setInitial(card, INITIAL_ORNAMENTS.includes(ornament));
     card.querySelector(".mrpc-proof-ins")?.remove();
     ensureWx(card, wantsWx(ornament));
@@ -194,6 +211,7 @@
       `작중 정보: ${meta.year}년 ${meta.month}월 ${meta.day}일, ${meta.time}, ${meta.weather || "날씨 미상"}, ${meta.location}`,
     );
     card.__mrpcSourceText = sourceText;
+    card.__mrpcMeta = meta;
     const date = document.createElement("span");
     date.className = "mrpc-date";
     date.innerHTML = `
@@ -289,6 +307,10 @@
     box.className = "mrpc-cast";
     box.setAttribute("aria-label", "인물 상태");
     box.setAttribute("translate", "no");
+    box.__list = list;
+    return box;
+  }
+  function fillStdCast(box, list) {
     const chips = document.createElement("span");
     chips.className = "mrpc-cast-chips";
     const tickets = document.createElement("span");
@@ -343,20 +365,211 @@
       tickets.append(ticket);
     });
     box.append(chips, tickets);
-    return box;
   }
   function toggleCast(chip) {
     const box = chip.closest(".mrpc-cast");
     if (!box) return;
     const index = chip.dataset.index;
     const opening = chip.getAttribute("aria-expanded") !== "true";
-    for (const c of box.querySelectorAll(".mrpc-cast-chip")) c.setAttribute("aria-expanded", String(opening && c === chip));
+    for (const c of box.querySelectorAll(".mrpc-cast-chip")) { c.setAttribute("aria-expanded", String(opening && c === chip)); c.classList.toggle("on", opening && c === chip); }
     for (const t of box.querySelectorAll(".mrpc-cast-ticket")) t.hidden = !(opening && t.dataset.index === index);
     box.toggleAttribute("data-open", opening);
   }
+  // ── 빈티지 소품 모양 12가지: 카드 자리에 따로 그린 종이 소품을 놓고, 인물 상태도 같은 모양으로 ──
+  const VINTAGE = {
+    "v-stamp": "소인 우표", "v-lp": "LP 슬리브", "v-scrap": "스크랩북", "v-chart": "별자리 차트",
+    "v-board": "탑승권", "v-post": "엽서", "v-film": "필름", "v-match": "성냥갑",
+    "v-tarot": "타로", "v-log": "관측 일지", "v-spec": "나비 표본", "v-exlib": "장서표",
+  };
+  const isVintage = (ornament) => Object.prototype.hasOwnProperty.call(VINTAGE, ornament);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  const WX_EN = { snow: "SNOW", rain: "RAIN", sun: "CLEAR", cloud: "CLOUDY", fog: "FOG", storm: "STORM", wind: "WIND", none: "SKY" };
+  const WX_SVG = {
+    snow: '<path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/>',
+    rain: '<path d="M7 14a4 4 0 0 1 .5-8 5 5 0 0 1 9.4 1.5A3.3 3.3 0 0 1 17 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>',
+    cloud: '<path d="M6.5 18a4.5 4.5 0 0 1 .6-9 5.5 5.5 0 0 1 10.5 1.6A3.7 3.7 0 0 1 17.5 18Z"/>',
+    fog: '<path d="M3 8h18M5 12h14M3 16h18M7 20h10"/>',
+    storm: '<path d="M7 13a4 4 0 0 1 .5-8 5 5 0 0 1 9.4 1.5A3.3 3.3 0 0 1 17 13Z"/><path d="M12.5 13 10 17.5h3.5L11 22"/>',
+    wind: '<path d="M3 9h11a3 3 0 1 0-3-3M3 13h15a3 3 0 1 1-3 3M3 17h7"/>',
+  };
+  const wxIcon = (key) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">${WX_SVG[key] || WX_SVG.cloud}</svg>`;
+  const V_CONS = '<svg class="c" viewBox="0 0 92 56" fill="none" stroke="currentColor" stroke-width=".8"><path d="M6 44 26 30 44 36 60 14 84 8M44 36 58 50" opacity=".6"/><g fill="currentColor" stroke="none"><circle cx="6" cy="44" r="1.6"/><circle cx="26" cy="30" r="2.2"/><circle cx="44" cy="36" r="1.6"/><circle cx="60" cy="14" r="2.6"/><circle cx="84" cy="8" r="1.6"/><circle cx="58" cy="50" r="1.3"/></g></svg>';
+  const V_SKY = '<svg class="bg" viewBox="0 0 360 150" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width=".6"><path d="M18 132 40 112 62 124 74 100M282 34 304 20 326 36 342 22 M304 20 312 52" opacity=".7"/><g fill="currentColor" stroke="none"><circle cx="18" cy="132" r="1.6"/><circle cx="40" cy="112" r="2.2"/><circle cx="62" cy="124" r="1.4"/><circle cx="74" cy="100" r="2.2"/><circle cx="282" cy="34" r="1.6"/><circle cx="304" cy="20" r="2.6"/><circle cx="326" cy="36" r="1.5"/><circle cx="342" cy="22" r="1.8"/><circle cx="312" cy="52" r="1.3"/><circle cx="180" cy="18" r=".9"/><circle cx="210" cy="132" r=".9"/><circle cx="150" cy="40" r=".7"/><circle cx="330" cy="120" r="1"/></g></svg>';
+  const V_STAR = '<svg class="st" viewBox="0 0 110 90" fill="none" stroke="currentColor" stroke-width="1"><path d="M55 10 61 39 90 45 61 51 55 80 49 51 20 45 49 39Z" fill="currentColor" fill-opacity=".14"/><path d="M55 22 58 42 75 45 58 48 55 68 52 48 35 45 52 42Z" fill="currentColor"/><g fill="currentColor" stroke="none"><circle cx="18" cy="16" r="1.6"/><circle cx="92" cy="14" r="2"/><circle cx="96" cy="72" r="1.4"/><circle cx="14" cy="74" r="1.8"/><circle cx="30" cy="28" r=".9"/><circle cx="82" cy="30" r=".9"/></g><path d="M8 86h94" opacity=".5"/></svg>';
+  const V_BF = '<span class="bfi"></span>';
+  function vintageData(card) {
+    const m = card.__mrpcMeta;
+    if (!m) return null;
+    const wd = card.__mrpcDate?.match(/\((.)\)/)?.[1] || "";
+    const yy = m.year.slice(2);
+    const [hh, mi] = m.time.split(":");
+    const wx = card.dataset.weather || "none";
+    const period = { night: "NIGHT", dawn: "DAWN", day: "DAY", dusk: "DUSK" }[card.dataset.period] || "NIGHT";
+    return {
+      y: m.year, yy, mo: m.month, d: m.day, day: Number(m.day), wd: esc(wd), hh, mi, time: esc(m.time),
+      w: esc(m.weather || ""), place: esc(m.location), wx, wxEn: WX_EN[wx] || "SKY", period,
+      full: `${m.year}.${m.month}.${m.day}`, short: `${yy}.${m.month}.${m.day}`,
+    };
+  }
+  const tw = (a, sep, b) => (b ? `${a}${sep}${b}` : a);
+  function vintageCardHTML(kind, t) {
+    switch (kind) {
+      case "v-stamp":
+        return `<div class="c1w"><div class="c1"><div class="in"><div class="art">${V_BF}<span>${t.wxEn}</span></div><div><div class="dt">${t.full}<small>(${t.wd})</small></div><div class="tm">${tw(t.time, " · ", t.w)}</div><div class="pl">${t.place}</div></div><span class="val">no. ${t.day}</span></div></div></div>`;
+      case "v-lp":
+        return `<div class="c2"><span class="disc b"><i>${t.time}</i></span><div class="sl"><div class="t"><span class="mk">NOW PLAYING</span><span class="mk">SIDE A</span></div><div class="pl">${t.place}</div><div class="meta"><span>DATE <b>${t.short} (${t.wd})</b></span><span>TIME <b>${t.time}</b></span>${t.w ? `<span>WEATHER <b>${t.w}</b></span>` : ""}</div></div></div>`;
+      case "v-scrap":
+        return `<div class="c3w"><span class="tp l"></span><span class="tp r"></span><div class="c3${t.w ? "" : " nostk"}"><span class="ds">${t.yy} · ${t.mo} · ${t.d} (${t.wd})</span><div class="pl">${t.place}</div><div class="ln">— ${t.time}</div>${t.w ? `<div class="stk">${wxIcon(t.wx)}<span>${t.w}</span></div>` : ""}</div></div>`;
+      case "v-chart":
+        return `<div class="c4">${V_SKY}<div class="r"><span class="mk">✦ &nbsp;CELESTIAL CHART&nbsp; ✦</span><div class="dt">${t.full} <small>(${t.wd})</small></div><div class="tm">${tw(`${t.hh}h ${t.mi}m`, " · ", t.w)}</div><div class="pl">${t.place}</div></div></div>`;
+      case "v-board":
+        return `<div class="c5"><span class="n1"></span><span class="n2"></span><div><div class="band"><span class="mk">BOARDING PASS</span><span class="mk">✦ ${t.period} LINE</span></div><div class="pl"><span class="mk">GATE</span><b>${t.place}</b></div><div class="grid"><div><span class="mk">DATE</span><b>${t.short} (${t.wd})</b></div><div><span class="mk">TIME</span><b>${t.time}</b></div>${t.w ? `<div><span class="mk">WEATHER</span><b>${t.w}</b></div>` : ""}</div></div><div class="stub"><div class="bc"></div><span>${t.short} ${t.time}</span></div></div>`;
+      case "v-post":
+        return `<div class="pc"><div class="l"><div class="ttl">Post Card</div><div class="msg">${t.place}에서,<br>${tw(t.w, " · ", t.time) || t.time}</div></div><div class="r"><div class="smp"><div>${V_BF}</div></div><div class="pmk">SCENE POST<b>${t.short}</b>(${t.wd})</div><div class="adr"><div>${t.y}. ${t.mo}. ${t.d} (${t.wd})</div><div>${t.hh} : ${t.mi}</div><div>날씨 · ${t.w || "—"}</div></div></div></div>`;
+      case "v-film":
+        return `<div class="fm"><div class="fr"><span class="no">▸ ${t.day}A</span><div class="dt">${t.full} <small>(${t.wd})</small></div><div class="tm">${tw(t.time, " · ", t.w)}</div><div class="pl">${t.place}</div></div></div>`;
+      case "v-match":
+        return `<div class="mb"><div class="lab"><div class="in"><div class="sm">SAFETY MATCHES</div><div class="arc">${t.place}</div><div class="bar"><span>${t.short} (${t.wd})</span><span>${t.time}</span>${t.w ? `<span>${t.w}</span>` : ""}</div><div class="sm">— EST. ${t.y} —</div></div></div></div>`;
+      case "v-tarot":
+        return `<div class="tr"><div class="in"><div class="num">XVII</div>${V_STAR}<div class="nm">${t.place}</div><div class="ft">${t.short} (${t.wd}) · ${tw(t.time, " · ", t.w)}</div></div></div>`;
+      case "v-log":
+        return `<div class="ob"><div class="hd"><b>OBSERVATION LOG</b><span class="mk">No. ${t.day}</span></div><table><tr><th>DATE</th><td class="hand">${t.full} (${t.wd})</td></tr><tr><th>TIME</th><td class="hand">${t.time}</td></tr>${t.w ? `<tr><th>SKY</th><td class="hand">${t.w}</td></tr>` : ""}<tr><th>SITE</th><td class="hand site">${t.place}</td></tr></table>${V_CONS}</div>`;
+      case "v-spec":
+        return `<div class="sp"><div class="in"><div class="bug">${V_BF}<span class="pin"></span></div><div class="lab"><div class="sn">No. ${t.day} · Papilio noctis</div>채집일 ${t.short} (${t.wd})<br>채집시 ${tw(t.time, " · ", t.w)}<br>채집지 <span class="pl">${t.place}</span></div></div></div>`;
+      case "v-exlib":
+        return `<div class="ex"><div class="in"><span class="co c1">✦</span><span class="co c2">✦</span><span class="co c3">✦</span><span class="co c4">✦</span>${V_BF}<div class="el">EX LIBRIS</div><div class="pl">${t.place}</div><div class="ft"><span>${t.short} (${t.wd})</span><span>${t.time}</span>${t.w ? `<span>${t.w}</span>` : ""}</div></div></div>`;
+    }
+    return "";
+  }
+  // 인물 상태 (빈티지): 버튼 겉모양 + 펼친 칸 모양
+  function vintagePerson(person) {
+    const [moodText, kao] = splitMood(person.fields[2]);
+    const k = kao ? `<span class="k">${esc(kao)}</span>` : "";
+    const mood = person.fields[2] ? `${esc(moodText)}${moodText && kao ? " " : ""}${k}` : "";
+    return { name: esc(person.name), outfit: esc(person.fields[0] || ""), pose: esc(person.fields[1] || ""), mood, k };
+  }
+  function vRows(p) {
+    return '<div class="fields">' + [[CAST_LABELS[0], p.outfit], [CAST_LABELS[1], p.pose], [CAST_LABELS[2], p.mood]].map(([l, v]) => (v ? `<div class="row"><span class="lb">${l}</span><span>${v}</span></div>` : "")).join("") + "</div>";
+  }
+  function vintageChipHTML(kind, p, n, t) {
+    const nm = `<b>${p.name}</b>${p.k}`;
+    switch (kind) {
+      case "v-stamp": return { cls: "stw", html: `<span class="st"><span class="i">${nm}</span></span>` };
+      case "v-lp": return { cls: "lp", html: `<span class="disc s"></span>${nm}` };
+      case "v-scrap": return { cls: "sc", html: nm };
+      case "v-chart": return { cls: "sr", html: `<span class="str">✦</span>${nm}` };
+      case "v-board": return { cls: "bd", html: `<i>${String(n + 1).padStart(2, "0")}</i>${nm}` };
+      case "v-post": return { cls: "ch", html: nm };
+      case "v-film": return { cls: "fch", html: `<i>${(t?.day || 0) + n}A</i>${nm}` };
+      case "v-match": return { cls: "mch", html: nm };
+      case "v-tarot": return { cls: "tch", html: `<i>${ROMAN[n] || n + 1}</i>${nm}` };
+      case "v-log": return { cls: "och", html: `<i></i>${nm}` };
+      case "v-spec": return { cls: "tagc", html: nm };
+      case "v-exlib": return { cls: "ov", html: nm };
+    }
+    return { cls: "ch", html: nm };
+  }
+  function vintagePanelHTML(kind, p, n, t) {
+    const no = String(n + 1).padStart(2, "0");
+    const dot = t ? `${t.yy}·${t.mo}·${t.d}` : "";
+    switch (kind) {
+      case "v-stamp":
+        return `<div class="stpw"><div class="stp"><div class="in"><div class="pm"><b>${p.name}</b><span>${dot}</span></div><div>${vRows(p)}</div><span class="bf bfi"></span></div></div></div>`;
+      case "v-lp":
+        return `<div class="lpw"><span class="disc b"></span><div class="sleeve"><div class="hd"><b>${p.name}</b><span>SIDE A</span></div>${[["A1", p.outfit], ["A2", p.pose], ["A3", p.mood]].filter(([, v]) => v).map(([a, v]) => `<div class="trk"><i>${a}</i><span>${v}</span></div>`).join("")}</div></div>`;
+      case "v-scrap":
+        return `<div class="notew"><span class="tp"></span><div class="note"><b>${p.name} —</b>${[[CAST_LABELS[0], p.outfit], [CAST_LABELS[1], p.pose], [CAST_LABELS[2], p.mood]].filter(([, v]) => v).map(([l, v]) => `<br>${l}: ${v}`).join("")}</div></div>`;
+      case "v-chart":
+        return `<div class="chart">${V_CONS}<div class="hd"><b>${p.name}</b><span>star · ${no}</span></div>${vRows(p)}</div>`;
+      case "v-board":
+        return `<div class="bp"><span class="n1"></span><span class="n2"></span><div class="main"><div class="band"><span>BOARDING PASS</span><span>SEAT ${no}</span></div><div class="ps"><span>PASSENGER</span><b>${p.name}</b></div>${vRows(p)}</div><div class="stub"><div class="bc"></div><span>${t ? `${t.short} ${t.time}` : ""}</span></div></div>`;
+      case "v-post":
+        return `<div class="pcb"><div class="dear">Dear ${p.name},</div>${vRows(p)}</div>`;
+      case "v-film":
+        return `<div class="fm"><div class="fr"><span class="no">▸ ${(t?.day || 0) + n}A · ${p.name}</span>${vRows(p)}</div></div>`;
+      case "v-match":
+        return `<div class="mbp"><div class="in"><div class="t">${p.name}</div>${vRows(p)}</div></div>`;
+      case "v-tarot":
+        return `<div class="trp"><div class="mini"><b>${ROMAN[n] || n + 1}</b>${V_STAR}<span>${p.name}</span></div>${vRows(p)}</div>`;
+      case "v-log":
+        return `<div class="ob"><div class="hd"><b class="who">${p.name}</b><span class="mk">OBJECT ${no}</span></div><table>${[[CAST_LABELS[0], p.outfit], [CAST_LABELS[1], p.pose], [CAST_LABELS[2], p.mood]].filter(([, v]) => v).map(([l, v]) => `<tr><th>${l}</th><td>${v}</td></tr>`).join("")}</table></div>`;
+      case "v-spec":
+        return `<div class="lab big"><div class="sn">${p.name} <span class="mk">SPECIMEN ${no}</span></div>${vRows(p)}</div>`;
+      case "v-exlib":
+        return `<div class="ex"><div class="in left"><span class="co c1">✦</span><span class="co c2">✦</span><span class="co c3">✦</span><span class="co c4">✦</span><div class="el">EX LIBRIS · ${p.name}</div>${vRows(p)}</div></div>`;
+    }
+    return "";
+  }
+  function renderCast(box, ornament, card) {
+    const list = box.__list || [];
+    const kind = isVintage(ornament) ? ornament : "std";
+    if (box.dataset.kind === kind && box.dataset.sig === (card?.__mrpcDate || "")) return;
+    box.dataset.kind = kind;
+    box.dataset.sig = card?.__mrpcDate || "";
+    for (const cls of [...box.classList]) if (cls.startsWith("mrpc-v") || cls === "mrpc-cast-std") box.classList.remove(cls);
+    box.removeAttribute("data-open");
+    box.textContent = "";
+    if (kind === "std") {
+      box.classList.add("mrpc-cast-std");
+      fillStdCast(box, list);
+      return;
+    }
+    box.classList.add("mrpc-vx", `mrpc-${kind}`);
+    const t = card ? vintageData(card) : null;
+    const chips = document.createElement("span");
+    chips.className = "chips";
+    const panels = document.createElement("span");
+    panels.className = "panels";
+    list.forEach((person, n) => {
+      const p = vintagePerson(person);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      const c = vintageChipHTML(kind, p, n, t);
+      chip.className = `mrpc-cast-chip ${c.cls}`;
+      chip.dataset.index = String(n);
+      chip.setAttribute("aria-expanded", "false");
+      chip.innerHTML = c.html;
+      chips.append(chip);
+      const panel = document.createElement("span");
+      panel.className = "mrpc-cast-ticket vpanel";
+      panel.dataset.index = String(n);
+      panel.hidden = true;
+      panel.innerHTML = vintagePanelHTML(kind, p, n, t);
+      panels.append(panel);
+    });
+    box.append(chips, panels);
+  }
+  function syncVintage(card, ornament) {
+    const wanted = isVintage(ornament);
+    card.classList.toggle("mrpc-vhide", wanted);
+    let vx = card.__mrpcVx;
+    if (!wanted) {
+      vx?.remove();
+      card.__mrpcVx = null;
+      return;
+    }
+    const t = vintageData(card);
+    if (!t) return;
+    if (!vx) {
+      vx = document.createElement("div");
+      vx.setAttribute("translate", "no");
+      vx.setAttribute("role", "group");
+      card.__mrpcVx = vx;
+    }
+    vx.setAttribute("aria-label", card.getAttribute("aria-label") || "작중 정보");
+    vx.title = "누르면 모양·색감을 바꿀 수 있어요";
+    vx.className = `mrpc-vx mrpc-vv mrpc-${ornament} mrpc-palette-${currentPalette()}`;
+    if (vx.dataset.kind !== ornament) {
+      vx.dataset.kind = ornament;
+      vx.innerHTML = vintageCardHTML(ornament, t);
+    }
+    if (card.parentNode && vx.previousSibling !== card) card.after(vx);
+  }
   const CONTENT_SELECTOR = ".mari-message-content, .translation-text";
   const SKIP_SELECTOR =
-    "script, style, textarea, input, select, option, button, code, pre, [contenteditable='true'], .mrpc-card, .mrpc-split, .mrpc-cast";
+    "script, style, textarea, input, select, option, button, code, pre, [contenteditable='true'], .mrpc-card, .mrpc-split, .mrpc-cast, .mrpc-vx";
   const records = new Map();
   const nodeRecords = new WeakMap();
   function hasMarker(text) {
@@ -399,6 +612,7 @@
       part.split?.remove();
       part.cast?.remove();
       if (part.card.__mrpcCast === part.cast) part.card.__mrpcCast = null;
+      part.card.__mrpcVx?.remove();
       release(part.card);
       part.card.remove();
     }
@@ -452,6 +666,7 @@
     }
     if (part.prefix) parent.insertBefore(part.prefix, first.node);
     parent.insertBefore(card, first.node);
+    if (card.__mrpcVx) parent.insertBefore(card.__mrpcVx, first.node);
     if (part.cast) parent.insertBefore(part.cast, first.node);
     part.split = document.createElement("span");
     part.split.className = "mrpc-split";
@@ -711,7 +926,7 @@
       } else if (next.nodeType === 1) {
         const empty = next.tagName === "BR" || (/^(P|DIV)$/.test(next.tagName) && !next.textContent.trim() && !next.querySelector(":not(br)"));
         if (empty) next.setAttribute("data-mrpc-gap", "");
-        else if (!next.classList.contains("mrpc-split") && !next.classList.contains("mrpc-cast")) return;
+        else if (!next.classList.contains("mrpc-split") && !next.classList.contains("mrpc-cast") && !next.classList.contains("mrpc-vx")) return;
       }
       node = next;
     }
@@ -738,7 +953,7 @@
   }
   function isOwnNode(node) {
     const element = node.nodeType === 1 ? node : node.parentElement;
-    return Boolean(element?.closest?.(".mrpc-card, .mrpc-picker, .mrpc-split, .mrpc-cast"));
+    return Boolean(element?.closest?.(".mrpc-card, .mrpc-picker, .mrpc-split, .mrpc-cast, .mrpc-vx"));
   }
   const observeTarget = document.body || document.documentElement;
   const handleMutations = (mutations) => {
@@ -864,12 +1079,12 @@
       return;
     }
     if (target?.closest?.(".mrpc-picker")) return;
-    const date = target?.closest?.(".mrpc-card .mrpc-date-copy");
+    const date = target?.closest?.(".mrpc-card .mrpc-date-copy, .mrpc-vv");
     if (date) {
       event.stopPropagation();
       event.preventDefault();
       if (picker) closePicker();
-      else openPicker(date.closest(".mrpc-card"));
+      else openPicker(date.closest(".mrpc-card, .mrpc-vv"));
       return;
     }
     closePicker();
