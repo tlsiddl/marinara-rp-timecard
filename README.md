@@ -70,6 +70,9 @@ https://github.com/tlsiddl/marinara-rp-timecard
 
 ## 바뀐 점
 
+### 1.4.2
+- 업데이트할 때 'Validation Error'가 나던 문제 수정 (마리나라의 확장 CSS 256KB 제한을 넘지 않도록 빈티지 소품 스타일을 JS에서 넣게 바꿈)
+
 ### 1.4.1
 - 영수증 찢긴 끝을 손으로 뜯은 종이 결처럼 자연스럽게 바꿈
 
