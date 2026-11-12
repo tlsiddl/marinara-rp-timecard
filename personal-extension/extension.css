@@ -1289,3 +1289,5 @@
 @media (prefers-reduced-motion:reduce){.mrpc-cast-std .mrpc-cast-chip{transition:none}.mrpc-cast-std[data-open] .mrpc-cast-ticket:not([hidden]){animation:none}}
 @media (max-width:360px){.mrpc-cast-std .mrpc-cast-ticket{grid-template-columns:minmax(0,1fr)}.mrpc-cast-std .mrpc-cast-stub{flex-direction:row;align-items:baseline;gap:.6em;padding:8px 16px 6px;border-right:0;border-bottom:1.5px dashed var(--mrpc-cast-line)}}
 
+
+.mrpc-cast-std .mrpc-cast-kao{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Apple SD Gothic Neo","Noto Sans JP","Noto Sans CJK JP","Yu Gothic","Meiryo","Malgun Gothic",system-ui,sans-serif!important;letter-spacing:0!important;word-spacing:0!important;font-weight:400!important;font-style:normal!important;font-size:.92em;white-space:nowrap}
