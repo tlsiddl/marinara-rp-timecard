@@ -3,8 +3,8 @@
   "version": 1,
   "config": {
     "name": "시공간 카드 상태창",
-    "version": "1.4.3",
-    "description": "RP 메시지의 §RP | 날짜 | 시간 | 장소 | 날씨§ 태그(첫 줄이든 마지막 줄이든)를 카드로 보여 줍니다. 태그 바로 아래 '이름: 의상 | 자세 | 심리' 줄은 이름·카오모지 버튼으로 접어 두고, 누르면 티켓 모양으로 펼쳐 보여 줍니다. 날짜를 누르면 모양 53가지(빈티지 소품 17가지 포함)와 색감 7가지를 고를 수 있고, 고른 값은 이 기기의 모든 채팅방에 적용됩니다. 날씨에 따라 그림이 움직이며 '동작 줄이기' 설정을 따릅니다. 원문은 바꾸지 않습니다. 필요한 글꼴(마리나라 글꼴 설정에 등록): Cormorant Garamond, Nanum Myeongjo, Gowun Batang, Courier Prime, Nanum Gothic Coding, IM Fell English.",
+    "version": "1.5.0",
+    "description": "RP 메시지의 §RP | 날짜 | 시간 | 장소 | 날씨§ 태그(첫 줄이든 마지막 줄이든)를 카드로 보여 줍니다. 태그 바로 아래 '이름: 의상 | 자세 | 심리' 줄은 이름·카오모지 버튼으로 접어 두고, 누르면 티켓 모양으로 펼쳐 보여 줍니다. 날짜를 누르면 모양 53가지(빈티지 소품 17가지 포함)와 색감 9가지(흑백, 말랑 천문 포함)를 고를 수 있고, 고른 값은 이 기기의 모든 채팅방에 적용됩니다. 날씨에 따라 그림이 움직이며 '동작 줄이기' 설정을 따릅니다. 원문은 바꾸지 않습니다. 필요한 글꼴(마리나라 글꼴 설정에 등록): Cormorant Garamond, Nanum Myeongjo, Gowun Batang, Courier Prime, Nanum Gothic Coding, IM Fell English.",
     "runtime": "client",
     "enabled": false,
     "capabilities": [
