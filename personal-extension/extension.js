@@ -4,48 +4,12 @@
   window.__mrpcActive = MRPC_ME;
   const mrpcIsMe = () => window.__mrpcActive === MRPC_ME;
   const FIXED_STYLE = "editorial";
-  const DEFAULT_ORNAMENT = "star-s";
+  const DEFAULT_ORNAMENT = "v-stamp";
   const DEFAULT_PALETTE = "slate";
   const STORAGE_KEY_ORNAMENT = "mrpc.ornament";
   const STORAGE_KEY_PALETTE = "mrpc.palette";
   const VARIANT_BASE = { "m-window-b": "m-window", "m-lamp-b": "m-lamp-m", "n-chime-b": "n-chime-t", "z-light-b": "z-light", "z-pond-b": "z-pond-f", "g-cross-b": "g-cross-n", "n-chime-t": "n-chime", "z-pond-f": "z-pond", "g-cross": "z-obj", "moon-r": "moon-s", "y-sji-n": "y-sji", "r-stars-t": "r-stars", "m-lamp-m": "m-lamp", "x-opera-q": "x-opera-n", "f-scene-p": "f-scene", "t-forecast-p": "t-forecast", "k-daily-p": "k-daily", "k-station-p": "k-station", "x-opera-n": "x-opera", "z-light": "z-obj", "z-pond": "z-obj", "z-boat": "z-obj", "z-tt": "z-doc", "z-slate": "z-doc", "k-daily-ol": "k-daily-p", "x-opera-ol": "x-opera-q", "x-opera-c": "x-opera-q", "k-station-w": "k-station-p", "g-cross-n": "g-cross" };
   const ORNAMENT_OPTIONS = [
-    ["star-s", "별", "날짜·장소가 제목"],
-    ["moon-r", "달"],
-    ["p-wxmove", "날씨"],
-    ["n-dropcap", "큰 머리글자"],
-    ["n-rubric", "색 머리글자"],
-    ["f-scene-p", "시나리오"],
-    ["z-slate", "슬레이트"],
-    ["z-tt", "시간표"],
-    ["r-stars", "별자리", "위에 그림"],
-    ["r-stars-t", "망원경 별자리"],
-    ["s-flower", "이달의 꽃"],
-    ["s-hourglass", "모래시계"],
-    ["y-sji-n", "청사초롱"],
-    ["u-hanja", "승정원일기"],
-    ["m-pinwheel", "바람개비"],
-    ["m-window", "창문", "옆에 그림"],
-    ["m-window-b", "큰 창문"],
-    ["m-lamp-m", "가로등"],
-    ["m-lamp-b", "큰 가로등"],
-    ["n-chime-t", "풍경"],
-    ["n-chime-b", "큰 풍경"],
-    ["n-balloon", "열기구"],
-    ["z-light", "등대"],
-    ["z-light-b", "큰 등대"],
-    ["z-pond-f", "개구리 연못"],
-    ["z-pond-b", "큰 개구리 연못"],
-    ["g-cross-n", "건널목"],
-    ["g-cross-b", "큰 건널목"],
-    ["t-forecast-p", "일기예보", "칸 나뉜 표"],
-    ["w-score", "악보"],
-    ["k-daily-p", "일력"],
-    ["k-daily-ol", "옅은 일력"],
-    ["k-station-p", "역명판"],
-    ["k-station-w", "옅은 역명판"],
-    ["x-opera-ol", "공연 표"],
-    ["x-opera-c", "투명 공연 표"],
     ["v-stamp", "소인 우표", "빈티지 소품"],
     ["v-lp", "LP 슬리브"],
     ["v-scrap", "스크랩북"],
@@ -119,7 +83,7 @@
   }
   const ORNAMENT_ALIAS = { "n-chime": "n-chime-t", "z-pond-s": "z-pond-f", "z-pond-d": "z-pond-f", "z-pond-j": "z-pond-f", "z-pond": "z-pond-f", "typewriter": "f-scene-p", "m-lamp": "m-lamp-m", "moon-s": "moon-r", "x-opera": "x-opera-n", "y-program": "x-opera-n", "y-program-n": "x-opera-n", "f-scene": "f-scene-p", "t-forecast": "t-forecast-p", "k-daily": "k-daily-p", "k-station": "k-station-p", "r-stars-p": "r-stars", "k-station-c": "k-station-p", "k-station-ol": "k-station-p", "k-daily-w": "k-daily-p", "g-cross": "g-cross-n" };
   function currentOrnament() {
-    try { const raw = localStorage.getItem(STORAGE_KEY_ORNAMENT); if (ORNAMENT_ALIAS[raw]) return ORNAMENT_ALIAS[raw]; } catch {}
+    try { const raw = localStorage.getItem(STORAGE_KEY_ORNAMENT); if (ORNAMENT_ALIAS[raw] && isVintage(ORNAMENT_ALIAS[raw])) return ORNAMENT_ALIAS[raw]; } catch {}
     return readChoice(STORAGE_KEY_ORNAMENT, DEFAULT_ORNAMENT, ORNAMENT_OPTIONS);
   }
   function currentPalette() {
@@ -183,7 +147,7 @@
     const palette = currentPalette();
     const ornament = currentOrnament();
     for (const [value] of PALETTE_OPTIONS) card.classList.remove(`mrpc-palette-${value}`);
-    for (const [value] of ORNAMENT_OPTIONS) card.classList.remove(`mrpc-ornament-${value}`);
+    for (const cls of [...card.classList]) if (cls.startsWith("mrpc-ornament-")) card.classList.remove(cls);
     for (const value of Object.values(VARIANT_BASE)) card.classList.remove(`mrpc-ornament-${value}`);
     card.classList.add(`mrpc-theme-${FIXED_STYLE}`);
     card.classList.add(`mrpc-palette-${palette}`);
